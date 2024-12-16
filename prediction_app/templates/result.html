@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Prediction Result</h2>
+<p><strong>CAD Risk:</strong> {{ result }}</p>
+
+<h3>Input Details:</h3>
+<table>
+    {% for key, value in input_data.items %}
+    <tr>
+        <td>{{ key|title }}</td>
+        <td>{{ value }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'index' %}" class="submit-btn">Back to Prediction</a>
+{% endblock %}
