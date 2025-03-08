@@ -1,3 +1,4 @@
+# Clinician model
 import numpy as np
 import os
 import pandas as pd
@@ -64,3 +65,43 @@ def load_model():
 
 # Global model and feature names
 CAD_MODEL, FEATURE_NAMES = load_model()
+
+# Additional functions for evaluation can be added here
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+
+def evaluate_model(model, X_test, y_test):
+    # Make predictions on test data
+    y_pred = model.predict(X_test)
+    
+    # Evaluate model performance
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred, average="weighted")
+    recall = recall_score(y_test, y_pred, average="weighted")
+    f1 = f1_score(y_test, y_pred, average="weighted")
+    roc_auc = roc_auc_score(pd.get_dummies(y_test), pd.get_dummies(y_pred), multi_class="ovr")
+    
+    # Display performance metrics
+    print("Accuracy:", accuracy * 100)
+    print("Precision:", precision * 100)
+    print("Recall:", recall * 100)
+    print("F1-Score:", f1 * 100)
+    print("ROC-AUC:", roc_auc * 100)
+
+# Example usage
+if __name__ == "__main__":
+    # Load model and data
+    model, feature_names = load_model()
+
+    # Example test set (you can replace this with your own dataset)
+    df = pd.read_csv('datasets/Clinical_database-1.csv')
+    X = df[feature_names]  # Use feature names from the loaded model
+    y = df["target"]
+
+    # Split data into training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Train the model
+    model.fit(X_train, y_train)
+
+    # Evaluate the model
+    evaluate_model(model, X_test, y_test)
