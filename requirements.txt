@@ -1,0 +1,6 @@
+pip install django djangorestframework django-cors-headers
+pip install mysqlclient
+pip install numpy
+pip install pandas
+pip install scikit-learn
+
